@@ -41,6 +41,15 @@ struct kernel_offsets {
   .task_comm = 0x830, .task_tasks = 0x550, .task_seccomp = 0x8E8,              \
   .kernel_phys_load = 0xa8000000
 
+#define STRUCT_OFFSETS_5_10                                                    \
+  .task_prio = 0x84, .task_normal_prio = 0x8C, .task_sched_task_group = 0x310, \
+  .task_pi_lock = 0x86C, .task_pi_waiters = 0x880,                             \
+  .task_pi_top_task = 0x890, .task_pi_blocked_on = 0x898,                      \
+  .task_pid = 0x5C8, .task_tgid = 0x5CC,                                       \
+  .task_atomic_flags = 0x590, .task_real_cred = 0x778, .task_cred = 0x780,     \
+  .task_comm = 0x790, .task_tasks = 0x4C8, .task_seccomp = 0x848,              \
+  .kernel_phys_load = 0xa7ff0000
+
 static const struct kernel_offsets known_offsets[] = {
 /* Add new kernels by creating src/kernels/<uname-release>/offsets.h */
 #include "6.6.77-android15-8-g4a507830d890-ab13636293-4k/offsets.h"
@@ -63,8 +72,8 @@ static const struct kernel_offsets known_offsets[] = {
 #include "6.12.23-android16-5-ga8f88ad96df3-ab13929693-4k/offsets.h"
 #include "6.12.23-android16-5-gb2a876903b49-ab14541642-4k/offsets.h"
 #include "6.12.23-android16-5-gf1bdb13583da-ab13761046-4k/offsets.h"
-#include "6.12.30-android16-5-g6e872b4863d6-ab13847919-4k/offsets.h"
 #include "6.12.38-android16-5-g844001fb8721-ab14552068-4k/offsets.h"
+#include "5.10.237-android12-9-00009-g744d5c916fbb-ab15260229/offsets.h"
   { .uname_r = NULL }
 };
 

