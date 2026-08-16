@@ -2,6 +2,9 @@
 
 > 中文: [README_ZH.md](README_ZH.md)
 
+| Kernel                                                 | Devices              | Status              |
+| `5.10.237-android12-9-00009-g744d5c916fbb-ab15260229`  | Nothing Phone 2      | Work in progress    |
+
 ## Supported Devices
 
 | Kernel                                                 | Devices                                         |
